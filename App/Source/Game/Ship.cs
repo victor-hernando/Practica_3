@@ -37,6 +37,10 @@ namespace TcGame
             {
                 Shoot<Bullet>();
             }
+            if (e.Code == Keyboard.Key.G)
+            {
+                Engine.Get.Scene.Create<Shield>();
+            }
 
             // ==> EJERCICIO 2
             // This looks like a good place to add the second type of projectile when C is pressed!
