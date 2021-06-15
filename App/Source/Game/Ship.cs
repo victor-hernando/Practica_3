@@ -10,6 +10,8 @@ namespace TcGame
         private Vector2f Forward = Up;
         private float Speed = 200.0f;
         private float RotationSpeed = 100.0f;
+        private float RotationModifier;
+
 
         public Ship()
         {
@@ -41,7 +43,7 @@ namespace TcGame
             // It would be useful to create a new class named Rocket! (Remember to create it in a new file, as a good practice)
             // You can get inspired by the Bullet class in order to create your Rocket code
 
-            // ==> EJERCICIO 4
+            // ==> EJERCICIO 4 V
             // If I press LShift, I go faster and I cannot rotate... Maybe we can achieve it by just
             // modifying the Speed and RotationSpeed members ;)
             // Also, do not forget to restore the correct Speed and RotationSpeed once when the LShift button is released.
@@ -58,11 +60,21 @@ namespace TcGame
         {
             if (Keyboard.IsKeyPressed(Keyboard.Key.A))
             {
-                Rotation -= RotationSpeed * dt;
+                Rotation -= RotationSpeed * dt*RotationModifier;
             }
             if (Keyboard.IsKeyPressed(Keyboard.Key.D))
             {
-                Rotation += RotationSpeed * dt;
+                Rotation += RotationSpeed * dt*RotationModifier;
+            }
+            if (Keyboard.IsKeyPressed(Keyboard.Key.LShift))
+            {
+                RotationModifier=0.0f;
+                Speed = 400.0f;
+            }
+            else
+            {
+                RotationModifier = 1.0f;
+                Speed = 200.0f;
             }
 
             Forward = Up.Rotate(Rotation);
