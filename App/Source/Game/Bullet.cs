@@ -51,14 +51,14 @@ namespace TcGame
                 var toAsteroid = a.WorldPosition - WorldPosition;
                 if (toAsteroid.Size() < 50.0f)
                 {
-                    // ==> EJERCICIO 1
-                    // Here is where the asteroid is destroyed!
-                    // We need to modify this code, so it is damaged instead of destroyed.
-                    // Then, if the total damage of the asteroid is enough, it can be destroyed.
-                    // REMEMBER that we still want to show the explosion everytime a Bullet hits the asteroid!!
-                    a.Destroy();
-                    // 
-
+                    a.currentTexture++;
+                    if (a.currentTexture < 3)
+                    {
+                        a.Sprite = new Sprite(Resources.Texture("Textures/Asteroid0" + a.currentTexture));
+                        a.Center();
+                        a.DoExplosion();
+                    }
+                    else a.Destroy();
                     Destroy();
                 }
             }
