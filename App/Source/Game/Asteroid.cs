@@ -9,10 +9,11 @@ namespace TcGame
         public float RotationSpeed = 20.0f;
         public float Speed = 200.0f;
         public Vector2f Forward = new Vector2f(1.0f, 0.0f);
+        public int currentTexture;
 
         public Asteroid()
         {
-            Sprite = new Sprite(Resources.Texture("Textures/Asteroid00"));
+            Sprite = new Sprite(Resources.Texture("Textures/Asteroid0"+currentTexture));
             Center();
             OnDestroy += OnAsteroidDestroyed;
         }
@@ -31,6 +32,10 @@ namespace TcGame
             {
                 hud.Points += 100;
             }
+            DoExplosion();
+        }
+        public void DoExplosion()
+        {
 
             var explosion = Engine.Get.Scene.Create<Explosion>();
             explosion.WorldPosition = WorldPosition;
