@@ -19,6 +19,9 @@ namespace TcGame
 
         public override void Update(float dt)
         {
+            //Vector2f mousePosition = new Vector2f(Engine.Get.MousePos.X, Engine.Get.MousePos.Y);
+            //Forward = Up.Rotate(mousePosition);
+
             Rotation = MathUtil.AngleWithSign(Forward, Up);
             Position += Forward * Speed * dt;
 
@@ -26,7 +29,7 @@ namespace TcGame
             CheckAsteroidCollision();
         }
 
-        private void CheckScreenLimits()
+        protected void CheckScreenLimits()
         {
             var Bounds = GetGlobalBounds();
             var ScreenSize = Engine.Get.Window.Size;
@@ -40,7 +43,7 @@ namespace TcGame
             }
         }
 
-        private void CheckAsteroidCollision()
+        protected void CheckAsteroidCollision()
         {
             var asteroids = Engine.Get.Scene.GetAll<Asteroid>();
             foreach (Asteroid a in asteroids)

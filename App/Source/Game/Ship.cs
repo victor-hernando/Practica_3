@@ -18,9 +18,7 @@ namespace TcGame
             OnDestroy += OnShipDestroy;
 
             Engine.Get.Window.KeyPressed += HandleKeyPressed;
-            // ==> EJERCICIO 3
-            // This looks like a good place to add the MouseButtonPressed event
-
+            Engine.Get.Window.MouseButtonReleased += HandleMouseReleased;
 
             var flame = Engine.Get.Scene.Create<Flame>(this);
             flame.Position = Origin + new Vector2f(20.0f, 62.0f);
@@ -31,9 +29,9 @@ namespace TcGame
 
         private void HandleKeyPressed(object sender, KeyEventArgs e)
         {
-            if (e.Code == Keyboard.Key.Space)
+            if(e.Code == Keyboard.Key.C)
             {
-                Shoot<Bullet>();
+                Shoot<Rocket>();
             }
 
             // ==> EJERCICIO 2
@@ -52,6 +50,14 @@ namespace TcGame
             // It is quite likely that Shield needs to be a new class, and it would be useful that it has different states,
             // that represent if it is being activated, already activated or being deactivated
             // Take into account that the addition of the Shield changes a little bit the behaviour of this Ship!
+        }
+
+        private void HandleMouseReleased(object sender, MouseButtonEventArgs e)
+        {
+            if (e.Button == Mouse.Button.Left)
+            {
+                Shoot<Bullet>();
+            }
         }
 
         public override void Update(float dt)
