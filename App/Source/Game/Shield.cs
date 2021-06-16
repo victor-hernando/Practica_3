@@ -8,7 +8,6 @@ namespace TcGame
     {
         Ship player;
         Timer clock;
-        TimerDelegate timerUp;
         int stage;
 
         public Shield()
@@ -18,11 +17,10 @@ namespace TcGame
             Center();
             Origin += new Vector2f(0.0f, -15.0f);
             Scale = new Vector2f(0.0f, 0.0f);
-
+            player.protection=true;
             stage = 0;
-            timerUp += NextStage;
             clock = new Timer();
-            clock.SetTimer(2, timerUp);
+            clock.SetTimer(2, NextStage);
         }
 
         public override void Update(float dt)
@@ -50,12 +48,13 @@ namespace TcGame
             switch (stage)
             {
                 case 1:
-                    clock.SetTimer(5, timerUp);
+                    clock.SetTimer(5, NextStage);
                     break;
                 case 2:
-                    clock.SetTimer(2, timerUp);
+                    clock.SetTimer(2, NextStage);
                     break;
                 case 3:
+                    player.protection = false;
                     Destroy();
                     break;
             }

@@ -14,8 +14,7 @@ namespace TcGame
         private float Speed = 200.0f;
         private float RotationSpeed = 100.0f;
         private float RotationModifier;
-        private DateTime time;
-        private TimeSpan frecuency = TimeSpan.FromSeconds(0.2f);
+        public bool protection;
 
         public Ship()
         {
@@ -89,14 +88,17 @@ namespace TcGame
 
         private void CheckCollision()
         {
-            var asteroids = Engine.Get.Scene.GetAll<Asteroid>();
-            foreach (var a in asteroids)
+            if (!protection)
             {
-                Vector2f toAsteroid = a.WorldPosition - WorldPosition;
-                if (toAsteroid.Size() < 50.0f)
+                var asteroids = Engine.Get.Scene.GetAll<Asteroid>();
+                foreach (var a in asteroids)
                 {
-                    Destroy();
-                    a.Destroy();
+                    Vector2f toAsteroid = a.WorldPosition - WorldPosition;
+                    if (toAsteroid.Size() < 50.0f)
+                    {
+                        Destroy();
+                        a.Destroy();
+                    }
                 }
             }
         }
