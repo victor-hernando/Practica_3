@@ -11,6 +11,8 @@ namespace TcGame
     {
         float rotationSpeed;
         List<Asteroid> asteroids = new List<Asteroid>();
+        float closestDistance;
+        Asteroid closestAsteroid;
 
         public Rocket()
         {
@@ -20,14 +22,33 @@ namespace TcGame
             rotationSpeed = 90.0f;
         }
 
+        public override void Init()
+        {
+
+        }
+
         public override void Update(float dt)
         {
             asteroids = Engine.Get.Scene.GetAll<Asteroid>();
 
-            foreach(Asteroid a in asteroids)
+
+            if(asteroids.Count != 0)
             {
-                Vector2f desiredForward = (a.Position - Position).Normal();
-                float angle = MathUtil.AngleWithSign(desiredForward, Forward);
+                closestDistance = (asteroids[0].Position - Position).Size();
+                closestAsteroid = asteroids[0];
+
+                foreach (Asteroid a in asteroids)
+                {
+                    float nextAsteroidDistance = (a.Position - Position).Size();
+
+                    if (nextAsteroidDistance < closestDistance)
+                    {
+                        closestAsteroid = a;
+                    }
+                }
+
+                Vector2f newForward = (closestAsteroid.Position - Position).Normal();
+                float angle = MathUtil.AngleWithSign(newForward, Forward);
 
                 float newAngle = angle > 0.0f ? rotationSpeed * dt : -rotationSpeed * dt;
 

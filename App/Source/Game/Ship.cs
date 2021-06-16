@@ -1,6 +1,9 @@
-﻿using SFML.Graphics;
+﻿using System.Collections.Generic;
+using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
+using System;
+using System.Diagnostics;
 
 namespace TcGame
 {
@@ -11,7 +14,8 @@ namespace TcGame
         private float Speed = 200.0f;
         private float RotationSpeed = 100.0f;
         private float RotationModifier;
-
+        private DateTime time;
+        private TimeSpan frecuency = TimeSpan.FromSeconds(0.2f);
 
         public Ship()
         {
@@ -20,7 +24,7 @@ namespace TcGame
             OnDestroy += OnShipDestroy;
 
             Engine.Get.Window.KeyPressed += HandleKeyPressed;
-            Engine.Get.Window.MouseButtonReleased += HandleMouseReleased;
+            //Engine.Get.Window.MouseButtonPressed += HandleMousePressed;
 
             var flame = Engine.Get.Scene.Create<Flame>(this);
             flame.Position = Origin + new Vector2f(20.0f, 62.0f);
@@ -39,32 +43,15 @@ namespace TcGame
             {
                 Engine.Get.Scene.Create<Shield>();
             }
-
-            // ==> EJERCICIO 2
-            // This looks like a good place to add the second type of projectile when C is pressed!
-            // It would be useful to create a new class named Rocket! (Remember to create it in a new file, as a good practice)
-            // You can get inspired by the Bullet class in order to create your Rocket code
-
-            // ==> EJERCICIO 4 V
-            // If I press LShift, I go faster and I cannot rotate... Maybe we can achieve it by just
-            // modifying the Speed and RotationSpeed members ;)
-            // Also, do not forget to restore the correct Speed and RotationSpeed once when the LShift button is released.
-            // For this last part, it is possible that you need to add another keyboard event in the constructor of the Ship
-
-            // ==> EJERCICIO 5
-            // By pressing G a wild Shield will appear! There are 151 Shields, ¡¿can you catch 'em all?!
-            // It is quite likely that Shield needs to be a new class, and it would be useful that it has different states,
-            // that represent if it is being activated, already activated or being deactivated
-            // Take into account that the addition of the Shield changes a little bit the behaviour of this Ship!
         }
 
-        private void HandleMouseReleased(object sender, MouseButtonEventArgs e)
+        /*private void HandleMousePressed(object sender, MouseButtonEventArgs e)
         {
-            if (e.Button == Mouse.Button.Left)
+            if (Mouse.IsButtonPressed(Mouse.Button.Left))
             {
                 Shoot<Bullet>();
             }
-        }
+        }*/
 
         public override void Update(float dt)
         {
@@ -85,6 +72,12 @@ namespace TcGame
             {
                 RotationModifier = 1.0f;
                 Speed = 200.0f;
+            }
+
+            if (Mouse.IsButtonPressed(Mouse.Button.Left) && time + frecuency <= DateTime.Now)
+            {
+                Shoot<Bullet>();
+                time = DateTime.Now;
             }
 
             Forward = Up.Rotate(Rotation);
@@ -113,14 +106,11 @@ namespace TcGame
             Engine.Get.Window.KeyPressed -= HandleKeyPressed;
         }
 
-        // ==> EJERCICIO 2
-        // Notice when calling Shoot<T>,"T" needs to be of the type Bullet. You can either modify this part of the code, or make
-        // your Rocket class inherit from Bullet
         private void Shoot<T>() where T : Bullet
         {
             var rocket = Engine.Get.Scene.Create<T>();
             rocket.WorldPosition = WorldPosition;
-            rocket.Forward = Forward;
+            rocket.Init();
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
+using System;
+using System.Diagnostics;
 
 namespace TcGame
 {
@@ -10,6 +12,7 @@ namespace TcGame
 
         public Vector2f Forward = new Vector2f(0.0f, -1.0f);
         public float Speed = 500.0f;
+        Vector2f mouseDirection;
 
         public Bullet()
         {
@@ -17,11 +20,14 @@ namespace TcGame
             Center();
         }
 
+        public virtual void Init()
+        {
+            mouseDirection = new Vector2f(Engine.Get.MousePos.X - Position.X, Engine.Get.MousePos.Y - Position.Y);
+            Forward = mouseDirection.Normal();
+        }
+
         public override void Update(float dt)
         {
-            //Vector2f mousePosition = new Vector2f(Engine.Get.MousePos.X, Engine.Get.MousePos.Y);
-            //Forward = Up.Rotate(mousePosition);
-
             Rotation = MathUtil.AngleWithSign(Forward, Up);
             Position += Forward * Speed * dt;
 

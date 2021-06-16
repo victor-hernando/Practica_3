@@ -1,6 +1,7 @@
 ﻿using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
+using System;
 
 namespace TcGame
 {
@@ -34,6 +35,11 @@ namespace TcGame
             {
                 circles[i] = new CircleShape();
             }
+        }
+
+        internal static void Assert(Vector2f mouseDirection)
+        {
+            throw new NotImplementedException();
         }
 
         public void DeInit()
