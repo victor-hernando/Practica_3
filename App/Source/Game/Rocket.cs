@@ -20,6 +20,9 @@ namespace TcGame
             Center();
             Speed = 300f;
             rotationSpeed = 90.0f;
+
+            var flame = Engine.Get.Scene.Create<Flame>(this);
+            flame.Position = Origin + new Vector2f(1.0f, 35.0f);
         }
 
         public override void Init()
@@ -30,7 +33,6 @@ namespace TcGame
         public override void Update(float dt)
         {
             asteroids = Engine.Get.Scene.GetAll<Asteroid>();
-
 
             if(asteroids.Count != 0)
             {
@@ -59,6 +61,10 @@ namespace TcGame
                 Position += Forward * Speed * dt;
 
                 Rotation = MathUtil.AngleWithSign(Forward, Up);
+            }
+            else
+            {
+                base.Update(dt);
             }
 
             CheckScreenLimits();
