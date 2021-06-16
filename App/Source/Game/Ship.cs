@@ -38,7 +38,7 @@ namespace TcGame
         {
             if(e.Code == Keyboard.Key.C)
             {
-                Shoot<Rocket>();
+                ShootRocket<Rocket>();
             }
             if (e.Code == Keyboard.Key.G)
             {
@@ -115,6 +115,13 @@ namespace TcGame
             var rocket = Engine.Get.Scene.Create<T>();
             rocket.WorldPosition = WorldPosition;
             rocket.Init();
+        }
+
+        private void ShootRocket<T>() where T : Rocket
+        {
+            var rocket = Engine.Get.Scene.Create<T>();
+            rocket.WorldPosition = WorldPosition;
+            rocket.Forward = Forward;
         }
     }
 }

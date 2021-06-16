@@ -25,11 +25,6 @@ namespace TcGame
             flame.Position = Origin + new Vector2f(1.0f, 35.0f);
         }
 
-        public override void Init()
-        {
-
-        }
-
         public override void Update(float dt)
         {
             asteroids = Engine.Get.Scene.GetAll<Asteroid>();
