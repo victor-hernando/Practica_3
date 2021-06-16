@@ -15,6 +15,8 @@ namespace TcGame
         private float RotationSpeed = 100.0f;
         private float RotationModifier;
         public bool protection;
+        private DateTime time;
+        private TimeSpan frecuency = TimeSpan.FromSeconds(0.2f);
 
         public Ship()
         {
